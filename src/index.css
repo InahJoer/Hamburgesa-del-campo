@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --color-campo-orange: #D97706;
+  --color-campo-red: #6B1F1A;
+  --color-campo-cream: #FFF8E9;
+  --color-campo-dark: #2E1F17;
+  --color-campo-gold: #F59E0B;
+  --color-campo-card: #FFFBF2;
+  --color-campo-wood: #451A03;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Montserrat", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-campo-cream);
+    color: var(--color-campo-dark);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-playfair {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom 3D & Flipbook styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Texture overlays */
+.wood-texture {
+  background-color: #3b1d11;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0),
+    linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.4) 100%);
+}
+
+.parchment-texture {
+  background-color: #FAF2DF;
+  background-image: radial-gradient(#d5c5a3 0.75px, transparent 0.75px), radial-gradient(#d5c5a3 0.75px, #FAF2DF 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.leather-border {
+  border: 4px solid #5C2C16;
+  box-shadow: 0 0 0 2px #3D1C0E, 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Glow & Ember keyframes */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1.5deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.04); }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Smooth custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF8E9;
+}
+::-webkit-scrollbar-thumb {
+  background: #D97706;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B45309;
+}
