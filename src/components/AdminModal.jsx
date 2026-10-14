@@ -19,7 +19,7 @@ export default function AdminModal({ isOpen, onClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-  
+
   // Editing state
   const [editingItemId, setEditingItemId] = useState(null);
   const [editForm, setEditForm] = useState({
@@ -211,11 +211,10 @@ export default function AdminModal({ isOpen, onClose }) {
                     <div className="flex flex-wrap gap-1.5">
                       <button
                         onClick={() => setSelectedCatFilter('all')}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
-                          selectedCatFilter === 'all'
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold ${selectedCatFilter === 'all'
                             ? 'bg-[#2E1F17] text-white'
                             : 'bg-white border border-[#D5C5A3] text-[#2E1F17]'
-                        }`}
+                          }`}
                       >
                         Todos ({menuItems.length})
                       </button>
@@ -223,11 +222,10 @@ export default function AdminModal({ isOpen, onClose }) {
                         <button
                           key={c.id}
                           onClick={() => setSelectedCatFilter(c.id)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
-                            selectedCatFilter === c.id
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold ${selectedCatFilter === c.id
                               ? 'bg-[#D97706] text-white'
                               : 'bg-white border border-[#D5C5A3] text-[#2E1F17]'
-                          }`}
+                            }`}
                         >
                           {c.name}
                         </button>

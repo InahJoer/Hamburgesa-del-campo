@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MenuProvider } from './context/MenuContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -11,10 +11,48 @@ import Footer from './components/Footer';
 import { MessageCircle, ShoppingBag, BookOpen } from 'lucide-react';
 import { BUSINESS_INFO } from './data/menuData';
 
+import Toast from './components/Toast';
+
 function MainLayout() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  // Persistent customer checkout form (survives drawer close & page refresh)
+  const [customerForm, setCustomerForm] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hdc_customer_data');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error('Error loading saved customer data:', e);
+    }
+    return {
+      name: '',
+      phone: '',
+      address: '',
+      notes: '',
+      lat: null,
+      lng: null,
+      mapsUrl: '',
+      locationShared: false,
+    };
+  });
+
+  const handleFormChange = (newForm) => {
+    setCustomerForm(newForm);
+    try {
+      localStorage.setItem('hdc_customer_data', JSON.stringify(newForm));
+    } catch (e) {
+      console.error('Error saving customer data:', e);
+    }
+  };
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const handleAddToCart = (item) => {
     setCart((prevCart) => {
@@ -29,6 +67,9 @@ function MainLayout() {
       }
       return [...prevCart, { ...item, quantity: 1 }];
     });
+
+    // Disparar toast no intrusivo con auto-cierre
+    setToast({ name: item.name, price: item.price });
   };
 
   const handleUpdateQuantity = (itemId, newQuantity) => {
@@ -76,18 +117,12 @@ function MainLayout() {
         {/* 3 Featured dishes preview matching reference */}
         <MenuPreview
           onOpenMenuBook={handleScrollToMenuBook}
-          onAddToCart={(item) => {
-            handleAddToCart(item);
-            setIsCartOpen(true);
-          }}
+          onAddToCart={handleAddToCart}
         />
 
         {/* The single interactive Flipbook Menu with 3D page flip effect */}
         <InteractiveMenuBook
-          onAddToCart={(item) => {
-            handleAddToCart(item);
-            setIsCartOpen(true);
-          }}
+          onAddToCart={handleAddToCart}
         />
 
         {/* Sobre Nosotros / Aquí te esperamos in deep crimson */}
@@ -111,6 +146,15 @@ function MainLayout() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
+        form={customerForm}
+        onFormChange={handleFormChange}
+      />
+
+      {/* Floating Add to Cart Toast Notification */}
+      <Toast
+        toast={toast}
+        onClose={() => setToast(null)}
+        onOpenCart={() => setIsCartOpen(true)}
       />
 
       {/* Mobile Sticky Quick Navigation Bar */}

@@ -325,11 +325,11 @@ export default function InteractiveMenuBook({ onAddToCart }) {
             <motion.div
               key={currentPage}
               custom={direction}
-              initial={{ opacity: 0, rotateY: direction > 0 ? 10 : -10, scale: 0.98 }}
-              animate={{ opacity: 1, rotateY: 0, scale: 1 }}
-              exit={{ opacity: 0, rotateY: direction > 0 ? -10 : 10, scale: 0.98 }}
-              transition={{ duration: 0.35, ease: 'easeInOut' }}
-              className="bg-[#FFFDF7] text-[#2E1F17] rounded-2xl shadow-xl border border-[#E8DFC8] p-8 min-h-[580px] flex flex-col justify-between"
+              initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+              className="bg-[#FFFDF7] text-[#2E1F17] rounded-2xl shadow-xl border border-[#E8DFC8] p-8 min-h-[580px] flex flex-col justify-between will-change-transform"
             >
               <div className="grid grid-cols-2 gap-12 text-left">
                 {/* Left Page */}
